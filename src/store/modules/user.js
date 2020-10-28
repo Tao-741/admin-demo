@@ -3,9 +3,10 @@ import { Message } from 'element-ui'
 import router from '@/router'
 
 const user = {
+  namespaced: true,
   state: {
     token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
-    userName: '',
+    username: '',
     roles: [],
     introduce: ''
   },
@@ -25,7 +26,7 @@ const user = {
       state.roles = payload
     },
     SET_NAME (state, payload) {
-      state.userName = payload
+      state.username = payload
     },
     SET_INTRODUCE (state, payload) {
       state.introduce = payload
@@ -37,11 +38,11 @@ const user = {
         login(formData).then(res => {
           if (res.code === 200) {
             commit('SET_TOKEN', res.data.token)
-            Message.success(res.data.msg)
+            Message.success(res.msg)
           } else {
-            Message.error(res.data.msg)
+            Message.error(res.msg)
           }
-          resolve(res.data)
+          resolve(res)
         })
       })
     },

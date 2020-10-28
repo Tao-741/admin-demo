@@ -16,22 +16,9 @@ function forSearchArr (route, roles) {
 }
 
 const permission = {
+  namespaced: true,
   state: {
-    routes: [
-      {
-        path: '/',
-        name: 'Home',
-        redirect: '/dashboard',
-        children: [
-          {
-            path: 'dashboard',
-            name: 'Dashboard',
-            component: () => import('@/views/dashboard/index'),
-            meta: { title: '首页', icon: 'el-icon-s-data' }
-          }
-        ]
-      }
-    ],
+    routes: [],
     addRoutes: []
   },
   mutations: {
@@ -40,7 +27,7 @@ const permission = {
       state.addRoutes = payload
     }
   },
-  action: {
+  actions: {
     getAsyncRoutes ({ commit, rootGetters }, roles) {
       return new Promise(resolve => {
         let routes = []

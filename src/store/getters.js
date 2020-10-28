@@ -6,6 +6,9 @@ const getters = {
       return true
     }
   },
+  token: state => state.user.token,
+  roles: state => state.user.roles,
+  username: state => state.user.username,
   routes: state => state.permission.routes
 }
 export default getters

@@ -13,10 +13,14 @@ function getJsonFile (filePath) {
 module.exports = function (app) {
   if (process.env.MOCK === 'true') {
     // 监听http请求
-    app.get('/getInfo', (rep, res) => {
+    app.get('/getInfo', (req, res) => {
       // 每次响应请求时读取mock data的json文件
       const json = getJsonFile('./userInfo.json5')
       // 将json传入 Mock.mock方法中，生成的数据返回给浏览器
+      res.json(Mock.mock(json))
+    })
+    app.post('/login', (req, res) => {
+      const json = getJsonFile('./user.json5')
       res.json(Mock.mock(json))
     })
   }

@@ -4,6 +4,7 @@
     <m-header/>
     <div class="wrapper_con">
       <side-bar/>
+      <page-main/>
     </div>
     <page-link/>
   </div>
@@ -12,6 +13,7 @@
 <script>
 import MHeader from './components/header'
 import SideBar from './components/sideBar'
+import PageMain from './components/PageMain'
 import PageLink from '@/layout/components/sideBar/Link'
 import { mapGetters } from 'vuex'
 export default {
@@ -26,7 +28,8 @@ export default {
   components: {
     PageLink,
     MHeader,
-    SideBar
+    SideBar,
+    PageMain
   }
 }
 </script>

@@ -88,12 +88,17 @@ export default {
       })
     },
     login () {
-      this.$store.dispatch('_login', this.ruleForm).then(res => {
-        if (!res.data.success) {
-          this.refresh()
+      this.$store.dispatch('user/_login', this.ruleForm).then(res => {
+        if (res.code === 200) {
+          this.$router.push('/')
         } else {
-          this.$route.push('/')
+          this.refresh()
         }
+      }).catch(error => {
+        this.refresh()
+        this.$message.error(
+          error
+        )
       })
     },
     onSuccess () {

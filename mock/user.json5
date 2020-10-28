@@ -1,0 +1,7 @@
+{
+  code: 200,
+  data: {
+    token:'@string("lower",50)'
+  },
+  msg: 'success'
+}
