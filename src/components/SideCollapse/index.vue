@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     toggleOpen () {
-      this.$store.commit('SET_OPENED', !this.opened)
+      this.$store.commit('app/SET_OPENED', !this.opened)
     }
   }
 

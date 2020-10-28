@@ -4,7 +4,12 @@
 
 <script>
 export default {
-  name: 'BasicTable'
+  name: 'BasicTable',
+  data () {
+    return {
+
+    }
+  }
 }
 </script>
 

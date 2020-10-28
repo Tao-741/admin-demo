@@ -17,7 +17,7 @@ export const routes = [
   },
   {
     path: '/',
-    name: 'Home',
+    name: 'Dashboard',
     component: Layout,
     redirect: '/dashboard',
     children: [
@@ -34,12 +34,9 @@ export const asyncRoutes = [
   {
     path: '/table',
     name: 'Table',
-    redirect: 'BaseTable',
+    redirect: '/table/base-table',
     component: Layout,
-    meta: {
-      title: 'Table',
-      icon: 'el-icon-s-data'
-    },
+    meta: { title: 'Table', icon: 'el-icon-s-data' },
     children: [
       {
         path: 'base-table',
@@ -71,10 +68,10 @@ router.beforeEach(async (to, from, next) => {
         try {
           const { roles } = await store.dispatch('user/_getInfo')
           const addRoutes = await store.dispatch('permission/getAsyncRoutes', roles)
-          VueRouter.addRoutes(addRoutes)
+          router.addRoutes(addRoutes)
           next({ ...to, replace: true })
-        } catch (e) {
-          Message.error(e)
+        } catch (error) {
+          Message.error(error)
         }
       }
     } else {
