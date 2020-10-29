@@ -24,23 +24,26 @@ for (let i = 0; i < count; i++) {
 }
 export default {
   getTableData: config => {
-    const { page, size, order, status } = param2Obj(config.url)
+    const { page, size, order, status, date } = param2Obj(config.url)
     const filterOrderList = list.filter((item) => {
       return !(order && item.order.indexOf(order) === -1)
     })
-    console.log(filterOrderList)
     const filterStatusList = filterOrderList.filter((item) => {
-      return !(status && item.status !== status)
+      return !(status && item.status !== Number(status))
     })
-    console.log(filterStatusList)
-    const pageList = filterStatusList.filter((item, index) =>
+    const filterDateList = filterStatusList.filter((item) => {
+      const d1 = new Date(date)
+      const d2 = new Date(item.date)
+      return !(date && d2.getTime() !== d1.getTime())
+    })
+    const pageList = filterDateList.filter((item, index) =>
       index < size * page && index >= size * (page - 1)
     )
     return {
       code: 200,
       data: {
         records: pageList,
-        total: filterOrderList.length
+        total: filterDateList.length
       },
       msg: 'success'
     }

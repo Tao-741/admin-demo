@@ -4,20 +4,22 @@
     <div slot="header">
       <div class="searchDiv">
         <el-row>
-          <el-button>添加</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus-outline">添加</el-button>
           <el-input type="text"
                     clearable
                     v-model="listQuery.order"
                     placeholder="请输入订单号"
                     @keyup.enter.native="handleFilter"
+                    class="btn"
           style="width: 200px">
           </el-input>
           <el-date-picker
             v-model="listQuery.date"
             type="date"
-            placeholder="选择日期">
+            placeholder="选择日期" @change="handleFilter"
+            class="btn">
           </el-date-picker>
-          <el-select v-model="listQuery.status" clearable placeholder="状态" @change="handleStatus">
+          <el-select v-model="listQuery.status" clearable placeholder="状态" @change="handleFilter" class="btn">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -92,16 +94,16 @@ export default {
         size: 10
       },
       options: [{
-        value: '0',
+        value: 0,
         label: '待审核'
       }, {
-        value: '1',
+        value: 1,
         label: '配送中'
       }, {
-        value: '2',
+        value: 2,
         label: '已完成'
       }, {
-        value: '3',
+        value: 3,
         label: '已取消'
       }],
       value: ''
@@ -128,20 +130,31 @@ export default {
     handleFilter () {
       this.listQuery.page = 1
       this.getPage()
-    },
-    handleStatus () {
-      console.log('........')
-      this.listQuery.page = 1
-      this.getPage()
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .fyDiv {
     float: right;
     margin-top: 30px;
     padding-bottom: 20px;
   }
+  .searchDiv {
+    margin-bottom: 20px;
+    .el-button {
+      padding: 11px 20px;
+    }
+    .btn {
+      float: right;
+      padding-right: 20px;
+    }
+  }
+
+</style>
+<style>
+.searchDiv [class^='el-icon'] {
+  color: #fff;
+}
 </style>
