@@ -4,7 +4,7 @@
     <div slot="header">
       <div class="searchDiv">
         <el-row>
-          <el-button type="primary" icon="el-icon-circle-plus-outline">添加</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addClick">添加</el-button>
           <el-input type="text"
                     clearable
                     v-model="listQuery.order"
@@ -74,6 +74,39 @@
       @current-change="handleCurrentChange"
     class="fyDiv">
     </el-pagination>
+    <el-dialog
+      title="新增"
+      :visible.sync="dialogVisible"
+      width="45%" class="diaForm">
+      <el-form ref="diaForm" :model="formData" :rules="rules" label-width="80px">
+        <el-form-item label="订单号">
+          <el-input v-model="formData.order" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="下单时间" prop="date">
+          <el-date-picker v-model="formData.date"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="配送员" prop="name">
+          <el-input v-model="formData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="配送地址" prop="address">
+          <el-input v-model="formData.address"></el-input>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="formData.status" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="changeTab('diaForm',editType)">确 定</el-button>
+  </span>
+    </el-dialog>
   </el-card>
 </div>
 </template>
@@ -106,7 +139,15 @@ export default {
         value: 3,
         label: '已取消'
       }],
-      value: ''
+      dialogVisible: false,
+      editType: '',
+      formData: {},
+      rules: {
+        date: [{ required: true, message: '请输入时间', trigger: 'change' }],
+        address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
+        name: [{ required: true, message: '请输入地址', trigger: 'blur' }],
+        status: [{ required: true, message: '请输入订单状态', trigger: 'change' }]
+      }
     }
   },
   mounted () {
@@ -130,6 +171,24 @@ export default {
     handleFilter () {
       this.listQuery.page = 1
       this.getPage()
+    },
+    // 新增
+    addClick () {
+      this.dialogVisible = true
+      this.formData.order = (Math.random() * 10e18).toString()
+      this.editType = 'add'
+    },
+    // dialog确定按钮
+    changeTab (formName, type) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          if (type === 'add') {
+            console.log(this.formData)
+            this.tableData.unshift(this.formData)
+          }
+          this.dialogVisible = false
+        }
+      })
     }
   }
 }
@@ -151,7 +210,11 @@ export default {
       padding-right: 20px;
     }
   }
-
+  .diaForm {
+    .el-input,.el-select {
+      width: 350px;
+    }
+  }
 </style>
 <style>
 .searchDiv [class^='el-icon'] {
